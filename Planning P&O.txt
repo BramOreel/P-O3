@@ -1,0 +1,39 @@
+Week 2: Eerste brainstorm
+
+Week 3: We onderzoeken welke camera's we best gebruiken voor ons project:
+		- CMOS of CCD?
+		- Hoeveel camera's
+	Rollenverdeling maken voor project
+		- Teamleider: Stijn
+		- notulist: Bram
+		- budgetbeheerder: Jonas
+	Camera's bestellen
+	Yolo5v eerste keer toepassen om foto's te herkennen
+
+Week 4: Library Opzoekwerk doen over:
+		- Yolov5
+		- Puntjes tekenen in rechthoek
+		- optical flow 
+		-Afstand tot camera
+
+Week 5: Verder opzoekwerk voor programmeren
+	Punten tekenen algoritme af
+	Video doorsturen uitzoeken
+
+Week 6: Verslag Schrijven
+
+Week 7: Cameraopstellingen uittesten
+	Distortie fiksen
+	Hyperfocale afstand
+
+Week 8- Week 11: Project afwerken
+
+Week 12: verslag af
+
+Week 13: Presentatie
+
+	
+	
+	
+
+
