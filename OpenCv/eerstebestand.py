@@ -27,7 +27,13 @@ while True:
 
     cv2.imshow("VIdeo 2", img)
     cv2.imshow("Video", img2)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+
+    k = cv2.waitKey(1)
+    if k & 0xFF == ord('q'):
         break
+
+
+
+
 
 
