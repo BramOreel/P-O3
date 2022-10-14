@@ -1,10 +1,14 @@
 import cv2
 
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
 
 cv2.namedWindow("test")
 
-img_counter = 0
+with open('getal.txt') as f:
+    img_counter = int(f.readline())
+    f.close()
+    print(img_counter)
+
 
 while True:
     ret, frame = cam.read()
@@ -16,6 +20,10 @@ while True:
     k = cv2.waitKey(1)
     if k % 256 == 27:
         # ESC pressed
+        with open('getal.txt','w') as f:
+            f.write(str(img_counter))
+            f.close()
+
         print("Escape hit, closing...")
         break
     elif k % 256 == 32:
