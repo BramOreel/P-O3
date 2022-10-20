@@ -12,8 +12,8 @@ with open('getal.txt') as f:
 
 def findColor(img):
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    lower = np.array([0,0,40])
-    upper = np.array([30,131,255])
+    lower = np.array([0,30,40])
+    upper = np.array([30,167,255])
     mask = cv2.inRange(imgHSV, lower, upper)
     cv2.imshow("img", mask)
     box = getContours(mask)
@@ -37,8 +37,8 @@ def getContours(img):
 
 while True:
     succes, img = cap.read()
-    blur =cv2.blur(img,(3,3))
-    imgResult = blur.copy()
+
+    imgResult = img.copy()
     findColor(imgResult)
     cv2.imshow("VIdeo 2", imgResult)
 

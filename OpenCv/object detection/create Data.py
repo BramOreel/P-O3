@@ -7,7 +7,7 @@ import time
 myPath = 'data/images' # Rasbperry Pi:  '/home/pi/Desktop/data/images'
 cameraNo = 0
 cameraBrightness = 180
-moduleVal = 10  # SAVE EVERY ITH FRAME TO AVOID REPETITION
+moduleVal = 5  # SAVE EVERY ITH FRAME TO AVOID REPETITION
 minBlur = 500  # SMALLER VALUE MEANS MORE BLURRINESS PRESENT
 grayImage = False # IMAGES SAVED COLORED OR GRAY
 saveData = True   # SAVE DATA FLAG
