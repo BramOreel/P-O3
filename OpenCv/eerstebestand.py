@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture(1)
-cap2 = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(1)
 cap.set(3,640)
 cap.set(4,480)
 cap2.set(3,640)
 cap2.set(4,480)
 
-faceCascade = cv2.CascadeClassifier("C:/Users/bramo/PycharmProjects/OpenCv/haarcascade_frontalface_default.xml")
+faceCascade = cv2.CascadeClassifier('C:/Users/bramo/PycharmProjects/pythonProject4/P&O3/OpenCv/cascade.xml')
 
 while True:
     succes, img = cap.read()

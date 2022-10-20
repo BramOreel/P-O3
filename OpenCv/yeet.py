@@ -1,18 +1,31 @@
+
 import cv2
 
+cam = cv2.VideoCapture(0)
 
-cap = cv2.VideoCapture(1)
-cap2 = cv2.VideoCapture(2)
-cap.set(3,640)
-cap.set(4,480)
-cap2.set(3,640)
-cap2.set(4,480)
+cv2.namedWindow("test")
+
 
 while True:
-    ret0, img = cap.read()
-    ret1, img2 = cap2.read()
-
-    cv2.imshow("VIdeo 2", img)
-    cv2.imshow("Video", img2)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    ret, frame = cam.read()
+    if not ret:
+        print("failed to grab frame")
         break
+    cv2.imshow("test", frame)
+
+    k = cv2.waitKey(1)
+    if k % 256 == 27:
+        # ESC pressed
+        print("Escape hit, closing...")
+
+        break
+    elif k % 256 == 32:
+        # SPACE pressed
+        img_name = "{}.png".format(img_counter)
+        cv2.imwrite(img_name, frame)
+        print("{} written!".format(img_name))
+        img_counter += 1
+
+cam.release()
+
+cv2.destroyAllWindows()

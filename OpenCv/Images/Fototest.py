@@ -1,6 +1,10 @@
 import cv2
 
 cam = cv2.VideoCapture(1)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240) # before works fine
+cam.set(cv2.CAP_PROP_EXPOSURE, -8)
+
+
 
 cv2.namedWindow("test")
 
