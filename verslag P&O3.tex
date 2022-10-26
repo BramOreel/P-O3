@@ -1,0 +1,60 @@
+\documentclass[kulak]{kulakarticle} % options: kulak (default) or kul
+
+\usepackage[dutch]{babel}
+
+\title{Hawkeye for Kubb}
+\author{Stijn Heyde, Bram Oreel, Jonas Vandewiele}
+\date{Academiejaar 2022 -- 2023}
+\address{
+	\textbf{Groep Wetenschap \& Technologie Kulak} \\
+	Ingenieurswetenschappen \\
+	P&O3}
+
+\begin{document}
+
+	\maketitle
+
+	\section*{Inleiding}
+
+	Iedereen kent wel het spel Kubb, maar niet iedereen is even goed vertrouwd met de spelregels. Een van de spelregels van dit spel is dat de kubb stok geen grotere hoek van 45° met de normaal mag maken tijdens het spinnen. Dit is jammer genoeg soms moeilijk te verifiëren, wat tot hevige discussies kan leiden onder de tegenstanders die samen tot een overeenkomst moeten zien te komen. Omdat Kubb de afgelopen jaren enorm aan populariteit heeft gewonnen, leek het nodig tijd om een algoritme te schrijven die de kubb stok tijdens zijn vlucht volgt en controleert of de hoek die de stok met de normaal maakt kleiner is dan 45°. Voor dit project hebben we gebruik gemaakt van de programmeertaal python, waarin we gewerkt hebben met OpenCV. Dit is een bibliotheek die voornamelijk gericht is op realtime computervisie.
+
+	\section{Materiaal}
+
+	We kregen voor dit project een budget van 150 euro. Hiermee moest al het nodige materiaal voor deze opdracht aangekocht worden. We besloten twee USB-camera’s te gebruiken om de kubb stok op beeld vast te leggen. We moesten echter wel nog rekening houden met de eigenschappen die de camera moest hebben. We zochten namelijk een camera met 60 FPS (frames per second) in plaats van 30. Dit was nodig om te voorkomen dat de kubb stok op de foto’s getrokken door de camera, wazig zou zijn door zijn (hoge) snelheid tijdens de vlucht. Daarnaast moesten we er ook voor zorgen dat de ‘wide angle’ groot genoeg is, zodat het volledige veld op beeld kan zonder dat de camera er te ver van verwijderd is. Anders zou de kubb stok te klein op beeld staan. We kozen uiteindelijk voor de ‘NexiGo N980P 1080P 60FPS webcam’. We kochten hiervan twee stuks met een kostprijs van 29.99 euro per webcam. Daarnaast hadden we voor deze twee USB-camera’s ook nog USB-kabels nodig die lang genoeg zijn om de twee camera’s met elkaar te verbinden over een afstand van acht meter. We kochten hiervoor twee USB-kabels van vijf meter met een kostprijs van 6 euro/kabel.
+
+
+	\section{Opstelling}
+
+	De opstelling van ons project bestaat uit een kubb veld van acht meter lang en drie meter breed. De twee USB-camera’s plaatsen we aan dezelfde kant aan de uiteinden net buiten het veld. De camera’s zijn verbonden met twee USB-kabels van vijf meter. Tijdens het spel controleert een computerprogramma de correctheid van de oriëntatie van de bewegende kubb stok met de loodrechte as.
+
+
+	\section{Objectdetectie}
+
+	Als eerste hebben we gezocht naar een methode om de kubb stok op beeld te herkennen. Dit hebben we verwezenlijkt door middel van het ‘haar cascade classifier’ algoritme. Dit algoritme dient om een specifiek object te detecteren. Hiervoor moesten er minstens 200 positieve en minstens 500 negatieve foto’s gebruikt worden. Op de positieve foto’s is de kubb stok te zien, terwijl de negatieve foto’s de kubb stok niet bevatten. Voor de positieve foto’s was het nodig om verschillende achtergronden te gebruiken, afhankelijk van waar het kubb spel gespeeld zal worden. Daarnaast is het ook de bedoeling om zoveel mogelijk verschillende oriëntaties van de kub stok mee te geven, terwijl hij in de lucht vliegt. Voor de negatieve foto’s was het de bedoeling om alle andere (verwarrende elementen) hierop te zetten. De balkvormige blokken en de koning zijn hier onder andere op te zien. Op die manier kan het algoritme bepalen of de kubb stok al dan niet op beeld staat gedurende een random worp met de stok. 
+	Vervolgens hebben we met behulp van bewegingsdetectie ervoor gezorgd dat alle bewegende elementen in de ruimte waargenomen worden. Rond al deze objecten is een contour getekend. Deze bewegende elementen ordenen we vervolgens van klein naar groot. Door nu te itereren over alle elementen volgens afnemende oppervlakte (dus van grootse tot kleinste oppervlak) en bij elke iteratiestap te controleren of het bekeken object de kubb stok is, kunnen we enkel de contour rond de stok overhouden en alle andere laten verdwijnen. Vervolgens tekenen we rond de kubb stok een minimale oppervlakte rechthoek die mooi rond de kubb stok past en die dus ook kan roteren. Het is met andere woorden de best passende rechthoek rond de stok. Door middel van de coördinaten van het centrum van deze rechthoek kan de positie van de kubb stok op de foto bepaald worden. Daarnaast willen we ook de afbeelding coördinaten van de twee eindpunten van de kubb stok weten. Deze drie afbeelding coördinaten zullen later naar 3D coördinaten worden omgezet. 
+
+
+	\section{Hoekberekening}
+	We willen met behulp van de locatie van de kubb stok, de baan bepalen die de stok tijdens zijn vlucht heeft afgelegd, in de vorm van een vergelijking. Deze baan zal na elke worp visueel op een scherm worden getoond. Hiervoor hebben we dus de precieze 3D coördinaten nodig van het midden van de kubb stok. Daarnaast willen we door middel van de specifieke 3D coördinaten van de twee uiteinden van de stok de hoek met de loodrechte bepalen, wat het uiteindelijke doel van dit project is. Met deze coördinaten kunnen we namelijk een vector bepalen die deze twee punten verbindt. Stel deze twee punten voor door P1(a1,b1,c1) en P2(a2,b2,c2). Nu kunnen we deze vector bepalen door de coördinaten van deze twee punten componentsgewijs van elkaar af te trekken. We moeten echter wel de laagste z-coördinaat aftrekken van de grootste zodat de vector omhoog wijst.
+	v = (a2,b2,c2) - (a1,b1,c1) = (a2-a1,b2-b1,c2-c1)
+	Deze vector is dus evenwijdig met de rechte die beide punten verbindt en bijgevolg ook met de kubb stok. Doordat deze vector de richting van de kubb stok aangeeft kan nu door middel van de onderstaande formule de gezochte hoek µ met de loodrechte berekend worden.
+	Cos(µ)=x1x2+y1y2+z1z2/ ( sqrt(x12+ y12+ z12) sqrt(x22+ y22+ z22) )
+	met vectoren v1(x1,y1,z1) en v2(x2,y2,z2).
+	Voor de loodrechte vector mogen we elke vector van de vorm z(0,0,z) gebruiken in de veronderstelling dat de z-as de loodrechte as is. Echter, om de meest eenvoudige berekening te bekomen, kiezen we de eenheidsvector z(0,0,1). Daarnaast is de hoek tussen deze vector en vector v nu ook een scherpe hoek doordat ze beiden omhoog wijzen. De hoek kan nu als volgt berekend worden:
+	µ= cos-1(z / sqrt( (a2-a1)2 + (b2-b1)2 + (c2-c1)2) ).
+
+
+	\section{Kalibreren}
+	Voordat de 2D afbeelding coördinaten kunnen omgezet worden naar 3D wereldcoördinaten, moet de camera eerst gekalibreerd worden. Dit wordt gedaan om de interne en externe eigenschappen (zoals bijvoorbeeld brandpuntsafstand) van onze gebruikte camera’s te bepalen.
+	We hebben dit gedaan aan de hand van een schaakbord. Doordat we namelijk de exacte lengte van dit bord kennen, kan dit als referentie gebruikt worden voor de informatie die uit de afbeelding gehaald kan worden.
+
+
+	\section{Foute worp}
+	Vanaf het moment dat de kubb stok door de lucht vliegt, berekent het algoritme de gezochte hoek. Zolang de hoek die de stok met de loodrechte maakt kleiner is dan 45° berekent het programma die hoek telkens opnieuw. Van zodra het algoritme een foutieve hoek opmerkt, genereert het een foutmelding en verschijnt er op het scherm “FOUTE WORP”.  Daarentegen zal er op het scherm de tekst “JUISTE WORP” verschijnen indien de stok correct geworpen werd. Het algoritme zal dit doen wanneer het de stok enkele keren na elkaar niet meer kon detecteren.
+
+
+	\section*{Besluit}
+
+	
+
+\end{document}
