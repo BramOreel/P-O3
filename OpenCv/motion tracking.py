@@ -12,7 +12,7 @@ def findColor(img):
 
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_EXPOSURE, -8)
+cap.set(cv2.CAP_PROP_EXPOSURE, -6)
 frame_width = int( cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
 frame_height =int( cap.get( cv2.CAP_PROP_FRAME_HEIGHT))
@@ -26,18 +26,22 @@ while cap.isOpened():
     diff = cv2.absdiff(frame1, frame2)
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (5,5), 0)
-    _, thresh = cv2.threshold(blur, 25, 255, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(blur, 15, 200, cv2.THRESH_BINARY)
     dilated = cv2.dilate(thresh, None, iterations=3)
     cv2.imshow("dilated",dilated)
     contours, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cntsSorted = sorted(contours, key=lambda x: cv2.contourArea(x))
 
-    if cntsSorted:
+    if cntsSorted and cv2.contourArea(cntsSorted[-1]) > 400:
         cv2.drawContours(frame1 , cntsSorted[-1], -1, (0,255,0),2)
         rect = cv2.minAreaRect(cntsSorted[-1])
+        if(rect[1][0]> rect[1][1]):
+            print(int(rect[2]))
+        else:
+            print(90 - rect[2])
         box = cv2.boxPoints(rect)
         box = np.int0(box)
-        print(box)
+
         cv2.drawContours(frame1, [box], 0, (0, 0, 255), 2)
 
     cv2.imshow("feed", frame1)
