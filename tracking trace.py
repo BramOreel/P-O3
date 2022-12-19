@@ -404,7 +404,7 @@ def predictparaboolbaanUiteindePunten(middelpunten, n):
     lengtedeelgebieden = lengtegebied / (len(x2) - 1)
 
     k = 1
-    for i in range(len(x2) - 1):
+    for i in range(len(x2)):
         nieuwePunten.append(round(k * lengtedeelgebieden, 2))
         k += 1
 
@@ -471,22 +471,17 @@ def predictparaboolbaanMiddenpunten(middelpunten, n):
 
 
 def punten(uiteinden):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
     k=0
     p = ['red', 'blue', 'orange', 'green', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan']
     for i in range(int(len(uiteinden)/2)):
         x = [uiteinden[2*k][0],uiteinden[2*k+1][0]]
         y = [uiteinden[2*k][1], uiteinden[2*k + 1][1]]
         z = [uiteinden[2*k][2], uiteinden[2*k + 1][2]]
-        ax.scatter(x,y,z)
-        while i >= len(p):
+
+        if i >= len(p):
             i -= len(p)
         ax.scatter(x, y, z, color=p[i])
         k += 1
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
 
 
 def bepaalVlakken(x,y,z):
@@ -497,8 +492,7 @@ def bepaalVlakken(x,y,z):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(x, y, z)
-    plt.show()
-
+    punten(uiteinden)
     slope, intercept, r, p, std_err = stats.linregress(x, y)
     print('De nauwkeurigheid van de benaderde rechte bepaald aan de hand van x en y is ' + str(r))
 
@@ -544,9 +538,6 @@ def bepaalVlakken(x,y,z):
     predictparaboolbaanMiddenpunten(middelpunten, n)
     
     predictparaboolbaanUiteindePunten(middelpunten, n)
-
-    punten(uiteinden)
-
 
 
 
